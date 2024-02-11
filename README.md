@@ -10,6 +10,39 @@
 
 [Vooronderzoek (Rooten Device) 6](#_toc158559518)
 
+# Ram DUMP ()
+
+Om te kunne beginnen met dit onderdeel, zijn er een aantal packages nodig om te installeren. `sudo apt install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386`
+Ook moet het user account van UBUNTU lid zijn van een plugdev groep `usermod -aG plugdev $LOGNAME` en vervolgens `sudo apt install android-sdk-platform-tools-common`. Voor dit onderzoek is de documentatie van (A guide to Android memory forensics) gebruikt tot **BLZ 9** - https://www.pwc.be/en/FY21/documents/Android_memory_forensics.pdf
+
+1. Maak een AVD aan en kies image `armeabi-v7a`. (Kies voor een 32 BIT image, aangezien 64 BIT niet ondersteund wordt door Volatility)
+2. De SD-CARD moet hoger zijn en meer MB hebben dan de RAM geheugen (aangezien je het daar gaat DUMPEN)
+3. Zorg voor ROOT
+4. Ga naar de Root van UBUNTU en type `git clone https://android.googlesource.com /kernel/goldfish`
+5. Vervolgens `cd goldfish` -> `git branch -a` -> `git checkout` -> `git checkout remotes/origin/android-goldfish-2.6.29`
+6. Nu heb je een compiler nodig. De compiler die hoort bij `armeabi-v7a` is `git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8`
+7. Vervolgens zet je de variables: `export ARCH=arm` en de compiler `export CROSS_COMILE=~/Android/arm-eabi-4.8/bin/arm-eabi-`
+8. Clean alle voorgaande files, voor de zekerheid `cd ~/goldfish` en dan `make clean`
+9. Nu moeten we een config file genereren van het apparaat. Type `adb pull /proc/config.gz` (zorg dat je toestel de heletijd aanstaat in dit proces) -> `gunzip config.gz` -> vervolgens `mv config ~/goldfish/.config`
+10. Vervolgens lopen we de config na door `make menuconfig`
+11. Daarna zorg je dat `Enable loadable module support` en `Module unloading` aan staan. Om `Module unloading` klik je op `Enable loadable module support`. Daarna Save je en exit je
+12. Vervolgens `make modules_prepare`
+13. En daarna `make`
+14. Vervolgens zal de compilatie starten, en zal er een `zImage` gemaakt worden in `arch/arm/boot`
+
+### In onze situatie is er gekozen voor compiler `prebuilts/gcc/linux-x86/x86/i686-linux-android-4.7`, aangezien onze image een `x86` image is.
+
+Onze ARCH is `export ARCH=x86` en onze cross_compile is `export CROSS_COMILE=~/Android/i686-linux-android-4.7/bin/i686-linux-android-`
+
+Bij het downloaden van `i686-linux-android-4.7` is er een probleem, wat onduidelijk is.
+
+1. Clone de folder naar je desktop `git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/x86/i686-linux-android-4.7`
+2. Vervolgens zal je zien dat de folder leeg is. Dit komt omdat er op `03-11-2021` een commit heeft plaatsgevonden, waarbij alles is verwijderd!!!
+3. Er is vervolgens gekeken naar de commit history, en er is gekozen om een checkout te doen naar `git checkout 8420ac1de63c753d4c5f391a18af476e91a9ac06 -- .`
+4. Nu zijn alle bestanden terug en kunnen we verder met het uitvoeren van de compilatie
+
+## !!!!!!! HIER IS HET ONDERZOEK GESTOPT, WE ZIJN WEL WAT VERDER GEKOMEN !!!!!!!!!
+
 # <a name="_toc1582342559515"></a>**Volatility**
 
 1. Download de laatste versie: `git clone https://github.com/volatilityfoundation/volatility3.git`
