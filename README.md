@@ -1,16 +1,16 @@
-﻿# Contents
+﻿# Lime (Linux Memory Extractor) - Methode voor Linux
+Een Loadable Kernel Module (LKM) maakt het mogelijk om vluchtig geheugen vast te leggen van Linux en Linux-gebaseerde apparaten, zoals Android. Dit maakt LiME uniek, omdat het de eerste tool is die volledige geheugencaptures mogelijk maakt op Android-apparaten. Daarnaast minimaliseert het de interactie tussen gebruikers- en kernelruimteprocessen tijdens de verwerving, waardoor het geheugencaptures produceert die forensisch gezien betrouwbaarder zijn dan die van andere tools die zijn ontworpen voor het vastleggen van Linux-geheugen.
+1. Download de repo: `git clone git@github.com:504ensicsLabs/LiME.git`
+2. Ga vervolgens naar `cd LiME/src`
+3. Vervolgens in de `src` folder, type `make` - het is belangrijk dat je gcc en make hebt geinstalleerd door `apt-get install gcc make`
+4. Vervolgens begint LiME met compileren, en ontstaat er een bestand genaamd `lime-******-generic.ko`. Dit bestand is nieuw aangemaakt, en is noodzakelijk voor het dumpen van RAM geheugen
+5. Zorg ervoor dat je in de `src` folder zit, om de volgende commando uit te voeren. Dit is de commando die verantwoordelijk is voor het uitvoeren van een memory dump van de hele RAM geheugen. `sudo insmod ./lime-******-generic.ko "path=../Linux.mem format=raw"`.
+	6. `insmod` zorgt ervoor dat het bestand wordt `ge-insert` in jouw memory
+	7. `path` is verantwoordelijk voor de output van de memory dump
+	8. `format` is de formaat van jouw memory dump, in ons geval `raw`
+6. Vervolgens loopt het vast, en is het bezig met dumpen, geef het een beetje tijd. (**Dit is ook afhankelijk van de grote aan RAM**)
 
-[Volatility](#_toc1582342559515)
-
-[APK INSTALL ADB 3](#_toc158559515)
-
-[Frida (Tool) 4](#_toc158559516)
-
-[Fridadump 5](#_toc158559517)
-
-[Vooronderzoek (Rooten Device) 6](#_toc158559518)
-
-# Ram DUMP ()
+# Ram DUMP
 
 Om te kunne beginnen met dit onderdeel, zijn er een aantal packages nodig om te installeren. `sudo apt install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386`
 Ook moet het user account van UBUNTU lid zijn van een plugdev groep `usermod -aG plugdev $LOGNAME` en vervolgens `sudo apt install android-sdk-platform-tools-common`. Voor dit onderzoek is de documentatie van (A guide to Android memory forensics) gebruikt tot **BLZ 9** - https://www.pwc.be/en/FY21/documents/Android_memory_forensics.pdf
