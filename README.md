@@ -1,4 +1,13 @@
-﻿# Lime (Linux Memory Extractor) - Methode voor Linux
+﻿
+# Volatility Tutorial
+1. Om te kunnen weten met welke image je werkt, en wat de profile is, type: `volatility -f <file> imageinfo`
+2. Het profiel staat weergeven onder `Suggested Profile(s)`
+3. Om vervolgens een `kdbgscan` uit te voeren, type: `volatility -f <file> --profile=<profile> kdbgscan`
+4. Om te kunnen weten welke processen actief ware, type: `volatility -f <file> --profile=<profile> pslist`
+5. Om te kunnen weten welke verstopte processen actief waren, type `volatility -f <file> --profile=<profile> pstree`
+6. Als we we willen zien wat een process deed, dan typen we `volatility -f <file> --profile=<profile> cmdline -p <process ID>`
+7. Als we meer info willen weten over een bestand, `volatility -f <file> --profile=<profile> filescan | grep -i "TYPE HERE THE NAME OF THE FILE"`. Dit zal vervolgens een `offset` terug geven, die nodig is om het bestand te kunnen extraheren van het geheugen, doe dat door `volatility -f <file> --profile=<profile> dumpfiles -Q <OFFSET> -D <folder voor output> file file.dat`
+# Lime (Linux Memory Extractor) - Methode voor Linux
 Een Loadable Kernel Module (LKM) maakt het mogelijk om vluchtig geheugen vast te leggen van Linux en Linux-gebaseerde apparaten, zoals Android. Dit maakt LiME uniek, omdat het de eerste tool is die volledige geheugencaptures mogelijk maakt op Android-apparaten. Daarnaast minimaliseert het de interactie tussen gebruikers- en kernelruimteprocessen tijdens de verwerving, waardoor het geheugencaptures produceert die forensisch gezien betrouwbaarder zijn dan die van andere tools die zijn ontworpen voor het vastleggen van Linux-geheugen.
 1. Download de repo: `git clone git@github.com:504ensicsLabs/LiME.git`
 2. Ga vervolgens naar `cd LiME/src`
