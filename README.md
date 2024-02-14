@@ -1,5 +1,8 @@
 ﻿
 # Volatility Tutorial
+
+Installeer 2.6 door `sudo snap install volatility-phocean`
+
 1. Om te kunnen weten met welke image je werkt, en wat de profile is, type: `volatility -f <file> imageinfo`
 2. Het profiel staat weergeven onder `Suggested Profile(s)`
 3. Om vervolgens een `kdbgscan` uit te voeren, type: `volatility -f <file> --profile=<profile> kdbgscan`
